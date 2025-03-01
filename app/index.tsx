@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Svg, { Path } from "react-native-svg";
 import {
   Text,
   View,
@@ -35,28 +36,14 @@ export default function Index() {
 
         <View style={styles.inputContainer}>
           <View style={styles.countryCode}>
-            <Image source={Flag} style={styles.flag} />
-
+            {/* <Flag width={24} height={16} style={styles.flag} /> */}
             <Text style={styles.countryCodeText}>+250</Text>
             <Text style={styles.downArrow}>▼</Text>
           </View>
           <Text style={styles.phoneInput}>
-            {phoneNumber
-              ? phoneNumber.replace(/(.{3})(.{3})(.{4})/, "XXX-XXXX-XXX")
-              : "XXX-XXXX-XXX"}
+            {phoneNumber &&
+              phoneNumber.replace(/(.{3})(.{3})(.{3})/, "$1-$2-$3")}
           </Text>
-        </View>
-
-        {/* OTP Input */}
-        <View style={styles.inputContainer}>
-          <View style={styles.otpPrefix}>
-            <View style={styles.otpIcon}>
-              <Text style={{ color: "#00BBD4", fontWeight: "bold" }}>⬤</Text>
-            </View>
-            <Text style={styles.otpText}>E</Text>
-            <Text style={styles.downArrow}>▼</Text>
-          </View>
-          <Text style={styles.otpInput}>{otp || "XXX"}</Text>
         </View>
 
         {/* Keypad */}
@@ -141,11 +128,16 @@ export default function Index() {
         </View>
 
         {/* Continue Button */}
-        {/* <TouchableOpacity style={styles.continueButton}>
+        <TouchableOpacity
+          style={
+            phoneNumber.length >= 9
+              ? styles.continueButtonActive
+              : styles.continueButton
+          }
+        >
           <Text style={styles.continueButtonText}>Continue</Text>
           <Text style={styles.arrowIcon}>→</Text>
-        </TouchableOpacity> */}
-        
+        </TouchableOpacity>
 
         {/* Terms */}
         <View style={styles.termsContainer}>
@@ -262,6 +254,22 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   continueButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginRight: 10,
+  },
+  continueButtonActive: {
+    flexDirection: "row",
+    backgroundColor: "blue",
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 20,
+  },
+  continueButtonTextActive: {
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
